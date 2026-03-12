@@ -1,0 +1,5 @@
+Need to install the following packages:
+prisma@7.5.0
+Ok to proceed? (y) 
+npm error canceled
+npm error A complete log of this run can be found in: /Users/agustin/.npm/_logs/2026-03-11T20_08_42_485Z-debug-0.log
