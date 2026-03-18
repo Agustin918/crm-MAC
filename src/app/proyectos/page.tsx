@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FolderKanban, Search, DollarSign, Ruler, CheckCircle } from 'lucide-react';
