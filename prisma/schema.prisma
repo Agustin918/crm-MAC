@@ -8,22 +8,142 @@ datasource db {
 }
 
 model Contact {
-  id        String   @id @default(cuid())
-  name      String
-  email     String?
-  phone     String?
-  company   String?
-  status    String   @default("LEAD") // LEAD, CONTACTED, QUALIFIED, WON, LOST
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  email       String?
+  phone       String?
+  meters      Float?
+  description String?
+  value       Float?
+  source      String?
+  campaign    String?
+  status      String   @default("LEAD")
+  notes       String?
+  tipologia   String?
+  costoM2     Float?
+  porcentajeHonorarios Float?
+  valorEstimado Float?
+  lastInteractionAt DateTime?
+  
+  // New fields from spec
+  tieneTerreno      Boolean @default(false)
+  presupuestoDefinido Boolean @default(false)
+  score             Int     @default(0)
+  probabilidadCierre Int    @default(10)
+  motivoPerdida     String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  proyecto    Proyecto?
   interactions Interaction[]
+  tasks       Task[]
+  contactNotes Note[]
+}
+
+model Proyecto {
+  id            String   @id @default(cuid())
+  nombre        String
+  contactoId    String   @unique
+  contacto      Contact  @relation(fields: [contactoId], references: [id])
+  
+  estado        String   @default("ACTIVO") // ACTIVO | PAUSADO | FINALIZADO
+  faseActual    String   @default("ANTEPROYECTO")
+  
+  m2            Float?
+  valorEstimado Float?
+  
+  honorariosTotal    Float   @default(0)
+  honorariosCobrados Float   @default(0)
+  
+  bimModelUrl   String?
+  metadata      String?  // JSON as string for SQLite
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  fases         FaseProyecto[]
+  archivos      Archivo[]
+  historial     Historial[]
+}
+
+model FaseProyecto {
+  id          String   @id @default(cuid())
+  proyectoId  String
+  proyecto    Proyecto @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
+  
+  nombre      String   // ANTEPROYECTO | PROYECTO | DOCUMENTACION | OBRA
+  estado      String   @default("PENDIENTE") // PENDIENTE | EN_PROGRESO | TERMINADO
+  porcentajeAvance Int  @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Archivo {
+  id          String   @id @default(cuid())
+  proyectoId  String?
+  proyecto    Proyecto? @relation(fields: [proyectoId], references: [id], onDelete: SetNull)
+  contactId   String?
+  
+  nombre      String
+  tipo        String   // presupuesto | contrato | plano | render | otro
+  url         String
+  
+  createdAt   DateTime @default(now())
+}
+
+model Historial {
+  id          String   @id @default(cuid())
+  proyectoId  String?
+  proyecto    Proyecto? @relation(fields: [proyectoId], references: [id], onDelete: SetNull)
+  contactId   String?
+  
+  tipo        String   // cambio_estado | nota | tarea | archivo | proyecto_creado
+  descripcion String
+  
+  createdAt   DateTime @default(now())
 }
 
 model Interaction {
   id        String   @id @default(cuid())
-  type      String   // NOTE, EMAIL, CALL, MEETING
+  type      String
   content   String
   createdAt DateTime @default(now())
   contactId String
   contact   Contact  @relation(fields: [contactId], references: [id])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  dueDate     DateTime?
+  priority    String   @default("MEDIUM")
+  category    String   @default("OTHER")
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  contactId   String?
+  contacto    Contact? @relation(fields: [contactId], references: [id])
+  proyectoId  String?
+  createdBy   String?
+  assignedTo  String?
+}
+
+model Note {
+  id          String   @id @default(cuid())
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  contactId   String
+  contact     Contact  @relation(fields: [contactId], references: [id])
+}
+
+model PipelineColumn {
+  id        String   @id @default(cuid())
+  name      String
+  color     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
 }

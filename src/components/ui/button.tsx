@@ -1,5 +1,6 @@
 "use client"
 
+import { Slot } from "@radix-ui/react-slot"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -11,15 +12,30 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
-        outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+        primary: "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500/50",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+        outline:
+          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+        
+        /* CRM Variants */
+        success: "bg-success-600 text-white hover:bg-success-700 active:bg-success-800 shadow-sm focus-visible:ring-success-500/50",
+        successOutline: "border-success-300 bg-success-50 text-success-700 hover:bg-success-100 hover:border-success-400 focus-visible:ring-success-500/50",
+        warning: "bg-warning-500 text-gray-900 hover:bg-warning-600 active:bg-warning-700 shadow-sm focus-visible:ring-warning-500/50",
+        warningOutline: "border-warning-300 bg-warning-50 text-warning-700 hover:bg-warning-100 hover:border-warning-400 focus-visible:ring-warning-500/50",
+        error: "bg-error-600 text-white hover:bg-error-700 active:bg-error-800 shadow-sm focus-visible:ring-error-500/50",
+        errorOutline: "border-error-300 bg-error-50 text-error-700 hover:bg-error-100 hover:border-error-400 focus-visible:ring-error-500/50",
+        info: "bg-info-600 text-white hover:bg-info-700 active:bg-info-800 shadow-sm focus-visible:ring-info-500/50",
+        infoOutline: "border-info-300 bg-info-50 text-info-700 hover:bg-info-100 hover:border-info-400 focus-visible:ring-info-500/50",
+        
+        /* Neutral Variants */
+        muted: "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300",
+        white: "bg-white text-gray-900 border-gray-200 hover:bg-gray-50 hover:border-gray-300 shadow-sm",
       },
       size: {
         default:
@@ -27,12 +43,15 @@ const buttonVariants = cva(
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+        xl: "h-11 gap-2 px-4 text-base has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
+        "2xl": "h-12 gap-2.5 px-6 text-lg has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5",
         icon: "size-8",
         "icon-xs":
           "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
         "icon-sm":
           "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
         "icon-lg": "size-9",
+        "icon-xl": "size-11",
       },
     },
     defaultVariants: {
@@ -46,10 +65,12 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  asChild = false,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot : ButtonPrimitive
   return (
-    <ButtonPrimitive
+    <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
