@@ -416,39 +416,39 @@ export default function ProyectoDetailPage() {
                    </div>
                  </div>
                )}
-               {proyecto && proyecto.archivos.length === 0 && !selectedFile ? (
-                 <div className="text-center py-8">
-                   <FileText className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-                   <p className="text-gray-500 dark:text-gray-400">No hay archivos</p>
-                   <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
-                     Sube presupuestos, contratos, planos o renders
-                   </p>
-                 </div>
-               ) : (
-                 <div className="space-y-2">
-                   {proyecto?.archivos.map((archivo) => (
-                     <div 
-                       key={archivo.id} 
-                       className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-800"
-                     >
-                       <div className="flex items-center gap-3">
-                         <FileText className="h-5 w-5 text-gray-400" />
-                         <div>
-                           <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                             {archivo.nombre}
-                           </p>
-                           <p className="text-xs text-gray-500 dark:text-gray-400">
-                             {ARCHIVO_TIPOS.find(t => t.value === archivo.tipo)?.label}
-                           </p>
-                         </div>
-                       </div>
-                       <Button variant="ghost" size="icon">
-                         <Trash2 className="h-4 w-4 text-red-500" />
-                       </Button>
-                     </div>
-                   ))}
-                 </div>
-               )}
+                {proyecto && (proyecto.archivos?.length === 0) && !selectedFile ? (
+                  <div className="text-center py-8">
+                    <FileText className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                    <p className="text-gray-500 dark:text-gray-400">No hay archivos</p>
+                    <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                      Sube presupuestos, contratos, planos o renders
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {proyecto?.archivos?.map((archivo) => (
+                      <div 
+                        key={archivo.id} 
+                        className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-800"
+                      >
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-gray-400" />
+                          <div>
+                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                              {archivo.nombre}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              {ARCHIVO_TIPOS.find(t => t.value === archivo.tipo)?.label}
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="icon">
+                          <Trash2 className="h-4 w-4 text-red-500" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
              </CardContent>
           </Card>
         </TabsContent>
@@ -527,27 +527,27 @@ export default function ProyectoDetailPage() {
                 Historial del Proyecto
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              {proyecto.historial.length === 0 ? (
-                <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                  No hay historial
-                </p>
-              ) : (
-                <div className="space-y-3">
-                  {proyecto.historial.map((entry) => (
-                    <div key={entry.id} className="flex gap-3">
-                      <div className="w-2 h-2 mt-2 rounded-full bg-indigo-500 flex-shrink-0"></div>
-                      <div>
-                        <p className="text-sm text-gray-900 dark:text-gray-100">{entry.descripcion}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(entry.createdAt).toLocaleString('es-AR')}
-                        </p>
+              <CardContent>
+                {proyecto && proyecto.historial.length === 0 ? (
+                  <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                    No hay historial
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {proyecto?.historial.map((entry) => (
+                      <div key={entry.id} className="flex gap-3">
+                        <div className="w-2 h-2 mt-2 rounded-full bg-indigo-500 flex-shrink-0"></div>
+                        <div>
+                          <p className="text-sm text-gray-900 dark:text-gray-100">{entry.descripcion}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            {new Date(entry.createdAt).toLocaleString('es-AR')}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
