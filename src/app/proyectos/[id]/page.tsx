@@ -330,52 +330,52 @@ export default function ProyectoDetailPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="fases" className="space-y-4 mt-4">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {proyecto.fases.map((fase) => (
-              <Card 
-                key={fase.id} 
-                className={`bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 ${
-                  fase.nombre === proyecto.faseActual ? 'ring-2 ring-indigo-500' : ''
-                }`}
-              >
-                <CardHeader className="pb-2">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                      {FASE_OPTIONS.find(f => f.value === fase.nombre)?.label}
-                    </CardTitle>
-                    {fase.estado === 'TERMINADO' && (
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                    )}
-                    {fase.estado === 'EN_PROGRESO' && (
-                      <Clock className="h-4 w-4 text-blue-500" />
-                    )}
-                    {fase.estado === 'PENDIENTE' && (
-                      <Pause className="h-4 w-4 text-gray-400" />
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-gray-500 dark:text-gray-400">Avance</span>
-                      <span className="font-medium text-gray-900 dark:text-gray-100">{fase.porcentajeAvance}%</span>
-                    </div>
-                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full rounded-full ${
-                          fase.estado === 'TERMINADO' ? 'bg-green-500' :
-                          fase.estado === 'EN_PROGRESO' ? 'bg-blue-500' : 'bg-gray-400'
-                        }`}
-                        style={{ width: `${fase.porcentajeAvance}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
+         <TabsContent value="fases" className="space-y-4 mt-4">
+           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+             {proyecto.fases?.map((fase) => (
+               <Card 
+                 key={fase.id} 
+                 className={`bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 ${
+                   fase.nombre === proyecto.faseActual ? 'ring-2 ring-indigo-500' : ''
+                 }`}
+               >
+                 <CardHeader className="pb-2">
+                   <div className="flex items-center justify-between">
+                     <CardTitle className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                       {FASE_OPTIONS.find(f => f.value === fase.nombre)?.label}
+                     </CardTitle>
+                     {fase.estado === 'TERMINADO' && (
+                       <CheckCircle className="h-4 w-4 text-green-500" />
+                     )}
+                     {fase.estado === 'EN_PROGRESO' && (
+                       <Clock className="h-4 w-4 text-blue-500" />
+                     )}
+                     {fase.estado === 'PENDIENTE' && (
+                       <Pause className="h-4 w-4 text-gray-400" />
+                     )}
+                   </div>
+                 </CardHeader>
+                 <CardContent>
+                   <div className="space-y-2">
+                     <div className="flex justify-between text-xs">
+                       <span className="text-gray-500 dark:text-gray-400">Avance</span>
+                       <span className="font-medium text-gray-900 dark:text-gray-100">{fase.porcentajeAvance}%</span>
+                     </div>
+                     <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                       <div 
+                         className={`h-full rounded-full ${
+                           fase.estado === 'TERMINADO' ? 'bg-green-500' :
+                           fase.estado === 'EN_PROGRESO' ? 'bg-blue-500' : 'bg-gray-400'
+                         }`}
+                         style={{ width: `${fase.porcentajeAvance}%` }}
+                       ></div>
+                     </div>
+                   </div>
+                 </CardContent>
+               </Card>
+             ))}
+           </div>
+         </TabsContent>
 
         <TabsContent value="archivos" className="space-y-4 mt-4">
           <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700">
